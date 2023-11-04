@@ -1,0 +1,19 @@
+/* styles.css */
+.custom-input {
+  background-color: rgb(240, 180, 102);
+    border: 1px solid #5f9677;
+    padding: 8px;
+    font-size: 16px;
+    width: 200px;
+    border-radius: 4px;
+    /* Agrega más estilos según tus preferencias */
+  }
+  .custom-input2 {
+   
+      border: 1px solid #3d3d92;
+      padding: 8px;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 4px;
+      /* Agrega más estilos según tus preferencias */
+    }
