@@ -2,40 +2,29 @@
 
 import React from "react";
 import Square from "../Square/page";
-import '../Board/style.css'
+import "../Board/style.css";
 
 
 class Board extends React.Component {
   renderSquare(i) {
-    return (
-      <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    );
+    const { squares, onClick } = this.props;
+    return <Square value={squares[i]} onClick={() => onClick(i)} />;
   }
+  
+  
 
   render() {
-    return (
-      <div className="mx-auto">
-        <div className="game-board">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="game-board">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="game-board">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+    const boardRows = Array.from({ length: 3 }, (_, rowIndex) => (
+      <div key={rowIndex} className="game-board">
+        {Array.from({ length: 3 }, (_, colIndex) =>
+          this.renderSquare(rowIndex * 3 + colIndex)
+        )}
       </div>
-    );
+    ));
+  
+    return <div className="mx-auto">{boardRows}</div>;
   }
+  
 }
 
 export default Board;
