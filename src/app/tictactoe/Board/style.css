@@ -4,7 +4,7 @@
   grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
   grid-gap: 10px; /* Espacio entre cuadros */
   position: relative;
-}
+ }
 
 .square {
   background-color: rgba(242, 242, 242, 0.568);
@@ -17,4 +17,5 @@
   cursor: pointer;
   font-size: 48px;
 }
+.prueba{font-size: 2px;}
 
