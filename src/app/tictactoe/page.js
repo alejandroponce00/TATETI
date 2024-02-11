@@ -13,6 +13,9 @@ class Game extends Component {
       history: [{ squares: Array(9).fill(null) }],
       stepNumber: 0,
       xIsNext: true,
+      scoreX: 0,
+      scoreO: 0,
+      gameOver: false
     };
   }
 
@@ -21,6 +24,8 @@ class Game extends Component {
   };
 
   handleClick(i) {
+    if (this.state.gameOver) return;
+
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -30,6 +35,14 @@ class Game extends Component {
     }
 
     squares[i] = this.state.xIsNext ? "X" : "O";
+    const winner = calculateWinner(squares);
+    if (winner) {
+      this.setState(prevState => ({
+        [winner === 'X' ? 'scoreX' : 'scoreO']: prevState[winner === 'X' ? 'scoreX' : 'scoreO'] + 1,
+        gameOver: true
+      }));
+    }
+
     this.setState({
       history: history.concat([
         {
@@ -45,28 +58,32 @@ class Game extends Component {
     this.setState({
       stepNumber: step,
       xIsNext: step % 2 === 0,
+      gameOver: false
     });
   }
 
+  handleRestart = () => {
+    this.setState({
+      history: [{ squares: Array(9).fill(null) }],
+      stepNumber: 0,
+      xIsNext: true,
+      gameOver: false
+    });
+  };
+
   render() {
-    const { playerX, playerO, history } = this.state;
+    const { playerX, playerO, scoreX, scoreO, gameOver } = this.state;
+    const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
-      const desc = move ? `Move #${move}` : "Start of the Game";
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)} className="text-white">{desc}</button>
-        </li>
-      );
-    });
-
     let status;
     if (winner) {
-      status = `Winner: ${winner}`;
+      status = winner === 'X' ? `${playerX} ha ganado` : `${playerO} ha ganado`;
+    } else if (gameOver) {
+      status = "Juego terminado. ¡Empate!";
     } else {
-      status = `Next player: ${this.state.xIsNext ? playerX : playerO}`;
+      status = `Le toca a: ${this.state.xIsNext ? playerX : playerO}`;
     }
 
     return (
@@ -76,7 +93,7 @@ class Game extends Component {
             <p className="text-white">X</p>
             <input
               type="text"
-              placeholder="Player X's Name"
+              placeholder="Nombre de jugador"
               value={playerX}
               onChange={(e) => this.handlePlayerNameChange("playerX", e)}
               className="custom-input2"
@@ -86,14 +103,18 @@ class Game extends Component {
             <p className="text-white">O</p>
             <input
               type="text"
-              placeholder="Player O's Name"
+              placeholder="Nombre de jugador"
               value={playerO}
               onChange={(e) => this.handlePlayerNameChange("playerO", e)}
               className="custom-input"
             />
           </div>
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>Puntajes:</div>
+          <div>{`${playerX}: ${scoreX} - ${playerO}: ${scoreO}`}</div>
+          {winner || gameOver ? (
+            <button onClick={this.handleRestart}>Volver a Jugar</button>
+          ) : null}
         </div>
         <div className="game-board">
           <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
@@ -125,6 +146,10 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
+  }
+
+  if (squares.every(square => square !== null)) {
+    return 'Empate';
   }
 
   return null;
