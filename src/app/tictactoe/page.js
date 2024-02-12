@@ -25,15 +25,15 @@ class Game extends Component {
 
   handleClick(i) {
     if (this.state.gameOver) return;
-
+  
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-
+  
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
-
+  
     squares[i] = this.state.xIsNext ? "X" : "O";
     const winner = calculateWinner(squares);
     if (winner) {
@@ -41,8 +41,12 @@ class Game extends Component {
         [winner === 'X' ? 'scoreX' : 'scoreO']: prevState[winner === 'X' ? 'scoreX' : 'scoreO'] + 1,
         gameOver: true
       }));
+    } else if (squares.every(square => square !== null)) { // Agregamos esta condición para manejar el empate
+      this.setState({
+        gameOver: true
+      });
     }
-
+  
     this.setState({
       history: history.concat([
         {
@@ -53,6 +57,7 @@ class Game extends Component {
       xIsNext: !this.state.xIsNext,
     });
   }
+  
 
   jumpTo(step) {
     this.setState({
@@ -144,15 +149,16 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return squares[a]; // Retorna el símbolo del ganador (X o O)
     }
   }
 
-  if (squares.every(square => square !== null)) {
-    return 'Empate';
+  if (squares.every(square => square !== null && calculateWinner === null)) {
+    return 'Empate'; // Retorna 'Empate' si todas las casillas están llenas y no hay ganador
   }
 
-  return null;
+  return null; // Retorna null si el juego aún no ha terminado
 }
+
 
 export default Game;
