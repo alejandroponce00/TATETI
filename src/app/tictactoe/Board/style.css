@@ -1,5 +1,6 @@
 
 .game-board {
+  align-items: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
   grid-gap: 10px; /* Espacio entre cuadros */
@@ -7,6 +8,7 @@
  }
 
 .square {
+  align-items: center;
   background-color: rgba(242, 242, 242, 0.568);
   width: 120px; /* Ancho de cada cuadro */
   height: 120px; /* Alto de cada cuadro */
@@ -17,5 +19,4 @@
   cursor: pointer;
   font-size: 48px;
 }
-.prueba{font-size: 2px;}
-
+.game{display:flex}

@@ -1,8 +1,8 @@
 'use client'
 import React, { Component } from "react";
-import Board from "./Board/page";
+import Board from "../Board/page";
 import Link from 'next/link';
-import './style.css';
+import '../style.css';
 
 class Game extends Component {
   constructor(props) {
@@ -121,7 +121,7 @@ class Game extends Component {
             <button onClick={this.handleRestart}>Volver a Jugar</button>
           ) : null}
         </div>
-        <div className="game-board">
+        <div className="game-board ">
           <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
         </div>
         <h6>

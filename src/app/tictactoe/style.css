@@ -9,8 +9,8 @@
     /* Agrega más estilos según tus preferencias */
   }
   .custom-input2 {
-   
-      border: 1px solid #3d3d92;
+    background-color: rgb(240, 180, 102);
+      border: 1px solid #c8a744;
       padding: 8px;
       font-size: 16px;
       width: 200px;
@@ -19,6 +19,6 @@
     }
     .puntaje{
       
-      font-size: 40px;
-      border-color: black;
+      font-size: 100px;
+      border-color: rgb(220, 71, 71);
     }
